@@ -1,0 +1,93 @@
+// addresses are -0x10 from file (unheadered)
+
+ORG 0x3DB98 + 0x10
+BYTE 0xC 0x1A 0x2B 0x2D 0x21 0xEF
+//   M   a    r    t    h
+
+/*
+fixed memory bank - 0x3c000 to 0x3ffff is mapped t0 0xC000 to 0xFFFF
+
+word table:
+0x3DEA0 + 0x10
+
+Prince, Mars, Sheeda...
+*/
+
+#define WordTable 0x3DEA0 + 0x10
+#define WordTableEntry(word, index) "PUSH; ORG WordTable + (index * 2); SHORT word; POP"
+
+#define MarthNameAddr 0xDB98
+
+//WordTableEntry(MarthNameAddr, 2) // replace sheeda with marth
+
+#define ChapterOpeningTable (0x21F2D + 0x10)
+
+// Text Codes
+#define ChapterTitleBox(chapter, x, y, width, height) "BYTE 0xE5 x y width height chapter"
+#define SetTextBox(x, y, width, height) "BYTE x y width height"
+#define PortraitBox(portrait, x, y, width, height) "BYTE 0xE8 x y width height portrait"
+#define SetTextSpeed(speed) "BYTE 0xE9 speed"
+#define StartText "BYTE 0xEA" // draws the little star thing
+#define ChapterOpeningNextDialogue(value) "BYTE 0xE6 0x80 value"
+
+// Portraits
+#define JagenPortrait 0x8
+
+// Default Words
+#define Word(value) "BYTE 0x8F value"
+#define Space "BYTE 0x84"
+#define Comma "BYTE 0x37"
+#define Period "BYTE 0x36"
+#define Newline "BYTE 0xED"
+
+// Actual words (oh boy)
+#define Word_Prince 0
+#define Word_Marth 1
+#define Word_Caeda 2
+#define Word_Talys 3
+#define Word_castle 6
+#define Word_come 13
+#define Word_has 34
+#define Word_from 35
+#define Word_Princess 36
+
+ORG 0x21F91 + 0x10
+
+ChapterTitleBox(0, 48, 16, 20, 4)
+SetTextBox(16, 112, 26, 5)
+PortraitBox(JagenPortrait, 48, 48, 6, 6)
+SetTextSpeed(3)
+StartText
+Word(Word_Prince)
+Space
+Word(Word_Marth)
+Comma
+Newline
+Word(Word_Princess)
+Space
+Word(Word_Caeda)
+Space
+Word(Word_has)
+Newline
+Word(Word_come)
+Space
+Word(Word_from)
+Space
+Word(Word_Talys)
+Newline
+Word(Word_castle)
+Period
+ChapterOpeningNextDialogue(2)
+
+/*
+ORG 0x3BF40 + 10 // a small amount of free space i hope
+BYTE 7 4+26 11+26 11+26 14+26 0xEF
+//   H e    l     l     o
+
+// 0x3BF46
+BYTE 6 0+26 13+26 5+26 18+26 19+26 0xEF
+//   G a    m     e    r     s
+// 0x3BF4D
+
+SHORT 0xBF40 0xBF46 // Hello Gamers
+*/

@@ -1,0 +1,2801 @@
+
+Three famicom games and some assorted data~
+
+
+Three famicom games and some assorted data~ - Celice - 10th June 2008 03:36:07
+
+Figure I'll drop these off.  They are as follow, in order:  Ankoku (Fire Emblem), Gaiden (Fire Emblem 2), and Famicom Wars.  These are some personal notes I took a year/years, and I figure someone might want to mess around with it sometime or another :[
+
+Code:
+ANKOKU
+Fire Emblem:
+
+QUICK NOTE
+
+%;$3BF50--Empty space--used for names
+%;$4000F--end ROM
+
+
+21FF9
+
+%;$21FA2
+%;$21FA6--first chapter's chapter text "header"
+
+
+
+Title screen
+-~$37290
+
+Pallete
+-$36DFA
+
+Starts around there.&nbsp; Top-most layer of text is sprite, with an overlay, as well as normal graphics thereon.&nbsp; Best to look in on it yourself.&nbsp; The backdrop (sword) is semi-compressed.&nbsp; The OP {$23 C0 _8} seems to be a pointer of sorts, which starts the graphics on a new line.&nbsp; The "_" is the new location; the game has it as odds.&nbsp; Ish.&nbsp; I'm not entirely sure, since I haven't checked it out.
+
+
+=NOTE ON TEXT=
+Before a NOP {<E>;$EF}, make sure you place a "next line {/n;$ED}."&nbsp; Also, most Operations to load names, such as loading a character's name or weapon, or even the number of experience points, go as "LOAD" "'X'" {$EC 01/02/03/ect.}.&nbsp; The second byte is never really set, such as in battles.&nbsp; Names are $EC02 {writes character's name} while the experience is $EC01 {writes amount of experience gained}.
+
+{16 characters per line during normal talk}
+
+--------------------------
+{IMPORTANT TEXT}
+--------------------------
+<NOTE: This text.&nbsp; is controlled.&nbsp; by fucking.&nbsp; pointers.
+
+>:[[[[[[[[[[[[[[
+
+ASJJHBASKDHADFHJASHDKASHDKJASHDKJAHSDKJA >
+
+Basically, above your text, there's pointer saying where to look when you load a character.&nbsp; After putting E6 80 0_ , the game will reload a character's mug and then also skip ahead, in the text, to where the pointer points to.&nbsp; So E6 80 04 will point to the fourth pointer, or the fourth pointer address/location/whatever.
+
+
+To open a character mug, first you must write $E6 80 0_ .&nbsp; The 0_ is the character to open.&nbsp; Since the first character is loaded before the text even starts, your first entrance should be 02.
+
+
+--------------------------
+Start game text
+-$2D216
+
+In-game menu text
+-~$2C1E0
+
+Random Chapter text
+-~$2D0B0
+
+Chapter 1 Opening text
+-$21FB4
+
+Chapter Names
+-$12A35 (text?)
+-$3EE49 (internal?)
+
+Character names
+-$3DEA5
+
+Class names (all names basically start from here)
+-~$3DA60
+
+Opening class scroll names
+-~$34CD4--$34DDB
+
+Opening class scroll descriptions
+(NOTE:&nbsp; Pointers aren't always simple.&nbsp; Table starts at $34DDC)
+-$34E08--
+
+Terrain names
+-$3E621
+_____________________________________
+STATS
+_____________________________________
+
+01 15 01 12 12 00 30 09 09 09 07 07 07 07 05 00 06 19 00 05 00 00 00 00 00 00 00
+
+Unlike Gaiden, Ankoku's stats are... long ._.&nbsp; As you can see, they're 27 bytes each.&nbsp; Here's the run-down:
+
+01=Character
+15=Class
+01=Level
+12=Current HP (NOTE:&nbsp; Having more than the total can cause some bad things to occur...)
+12=Total HP
+00=Experience
+30=Unknown
+09=Strength
+09=Skill
+09=Weapon Level
+07=Speed
+07=Luck
+07=Defense
+07=Movement
+05=Unknown
+00=Magic Defense
+06=Y Starting position (doesn't quite work right.&nbsp; I think the unit "tile" must be placed at the starting position in both the stat and level data)
+19=X Starting position (ditto)
+00=Unknown (makes unit unselectable?)
+05=Item slot 1
+00=Item slot 2
+00=Item slot 3
+00=Item slot 4
+00=Unknown
+00=Unknown
+00=Unknown
+00=Unknown
+
+
+
+
+Marth
+-$204D2
+Jeigan
+-$204ED
+Kain
+-$20508
+Abel
+-$20523
+Doga
+-$2053E
+Gordon
+-$20559
+Sheeda
+-$20574
+Saji
+-$20590
+Maji
+-$205AB
+Barts
+-$205C6
+Oguma
+-$205E1
+Julian
+-$205FD
+Rena
+-$20618
+Hardain
+-$20635
+{$15}
+-$20650
+{$16}
+-$2066B
+{$17}
+-$20686
+{$18}
+-$206A1
+{$1A}
+-$206BE
+{$1B}
+-$206D9
+{$22}
+-$306F7
+{$23}
+-$20712
+{$24}
+-$2072D
+{$25}
+-$20748
+{$1C}
+-$20763
+{$35}
+-$20784
+
+Riff
+-$D4A8
+
+
+
+
+_____________________________________
+ITEMS
+_____________________________________
+00=None
+01=Silver Sword
+02=Iron Sword
+03=Steel Sword
+04=Iron Cutter
+05=Rapier(!)
+06=Dragon Killer
+07=Killer Sword
+08=Miracle Sword(!)
+09=Thunder Sword
+0A=Devil Sword
+0B=Falchion(!)
+0C=Iron Lance
+0D=Knight Killer
+0E=Silver Lance
+0F=Javelin
+
+204D2
+3DA60
+
+10=Gradius(!)
+11=Iron Bow
+12=Bow Gun
+13=Steel Bow
+14=Silver Bow
+15=Partia(!)
+16=Quick Rain (Catapault)
+17=Stone Hedge (Catapault)
+18=Fire Gun?
+19=Thunder Bolt?
+1A=Elephant
+1B=Iron Axe
+1C=Steel Axe
+1D=Hammer
+1E=Devil Axe
+1F=Hand Axe
+
+20=Fire Dragon Stone
+21=Earth Dragon Stone?
+22=Magic Dragon Stone?
+23=God Dragon Stone
+24=?
+25=Item?
+26=Dragon Stone?
+27=Item?
+28=Item?
+29=Item?
+2A=Dragon Stone? (kills automatically)
+2B=Fire
+2C=Thunder
+2D=Blizzard
+2E=Elfire
+2F=Volcannon
+
+30=Torron
+31=Worm?
+32=Aura?(!)
+33=Excalibur(!)
+34=Maph?(!)
+35=Starlight(!)
+36=Live
+37=Relive
+38=Recover
+39=?
+3A=Warp
+3B=Reserve
+3C=Libro
+3D=Magic Shield
+3E=Hamain(!)
+3F=Oum(!)
+
+40=Pure Water
+41=Ointment
+42=Door Key?
+43=Bridge Key?
+44=Thief Key
+45=?
+46=Defense up
+47=M.Defense up
+48=Move up
+49=Weapon Level up
+4A=Skill up
+4B=Strength up
+4C=?
+4D=Speed up
+4E=Luck up
+4F=?
+
+50=Promotion item?
+51=Promotion item?
+52=?
+53=?
+54=?
+55=Earth Orb
+56=?
+57=?
+58=Star Orb
+59=?
+
+_____________________________________
+CHARACTERS
+_____________________________________
+
+
+00=Ummm... say bye-bye to ALL of your characters
+
+01=Marth
+-Mug TSA
+&nbsp; -$293C1
+
+02=Sheeda
+
+
+03=Jeigan
+
+
+04=Kain
+
+
+05=Abel
+
+
+06=Doga
+
+
+07=Gordon
+
+
+08=Ricardo
+
+
+09=Riff
+0A=Saji
+0B=Maji
+0C=Barts
+0D=Kashim
+0E=Oguma
+0F=Daros
+
+10=Julian
+11=Rena
+12=Maric
+13=Navarre
+14=Hardain
+15=PINKHAIR_ARCHER
+16=GREENHAIR_ARCHER--WOLF
+17=REDHAIR_SOCIALKNIGHT
+18=ORANGEHAIR_SOCIALKNIGHT
+19=Banetou
+1A=BROWNHAIR_SWORDFIGHTER
+1B=REDHAIR_SWORDFIGHTER
+1C=BLUEHAIR_PEGUSUSKNIGHT
+1D=Katu
+1E=YOUNG_REDHAIR_SISTER
+1F=Minerva
+
+20=Linda
+21=BLONDHAIR_SNIPER
+22=GREEN_ARMOR
+23=GREEN_ARMOR
+24=GREENHAIR_ARCHER
+25=Wendell
+26=Alan
+27=Astore
+28=Jake? (BLUEHIAR
+29=Chainy
+2A=BLUE_BISHOP
+2B=Est
+2C=BLONDE_HERO
+2D=ORANGEHAIR_SWORDFIGHTER
+2E=REDHAIR_ARMOR
+2F=Jake
+
+30=Poala
+31=Chiki
+32=Lawrence
+33=Marth's Sister
+34=REDHAIR_NAVARRE
+35=Gato
+36=BLANK (not so usable)
+37=^
+38=^
+39=^
+3A=^
+3B=^
+3C=BROWNHAIR_REDARMOR_ARMOR
+3D=
+3E=
+3F=
+
+40=
+41=
+42=
+43=
+44=
+45=
+46=
+47=
+48=
+49=BROWNHAIR_REDARMOR_ARMOR
+4A=BROWNHAIR_REDARMOR_ARMOR
+4B=^
+4C=Evil Mamkute
+4D=
+4E=
+4F=
+
+50=
+51=
+52=
+53=
+54=
+55=
+56=
+57=
+58=
+59=
+5A=
+5B=
+5C=
+5D=
+5E=
+5F=
+
+60=
+61=
+62=
+63=
+64=
+65=
+66=
+67=
+68=
+69=
+6A=
+6B=
+6C=
+6D=
+6E=
+6F=
+
+70=
+71=
+72=
+73=
+74=
+75=
+76=
+77=
+78=
+79=
+7A=
+7B=
+7C=
+7D=
+7E=
+7F=
+
+80=
+81=
+82=
+83=
+84=
+85=
+86=
+87=
+88=
+89=
+8A=
+8B=
+8C=
+8D=
+8E=
+8F=
+
+90=
+91=
+92=
+93=
+94=
+95=
+96=
+97=
+98=
+99=
+9A=
+9B=
+9C=
+9D=
+9E=
+9F=
+
+A0=
+A1=
+A2=
+A3=
+A4=
+A5=
+A6=
+A7=
+A8=
+A9=
+AA=
+AB=
+AC=
+AD=
+AE=
+AF=
+
+B0=
+B1=
+B2=
+B3=
+B4=
+B5=
+B6=
+B7=
+B8=
+B9=
+BA=
+BB=
+BC=
+BD=
+BE=
+BF=
+
+C0=
+C1=
+C2=
+C3=
+C4=
+C5=
+C6=
+C7=
+C8=
+C9=
+CA=
+CB=
+CC=
+CD=
+CE=
+CF=
+
+D0=
+D1=
+D2=
+D3=
+D4=
+D5=
+D6=
+D7=
+D8=
+D9=
+DA=
+DB=
+DC=
+DD=
+DE=
+DF=
+
+E0=
+E1=
+E2=
+E3=
+E4=
+E5=
+E6=
+E7=
+E8=
+E9=
+EA=
+EB=
+EC=
+ED=
+EE=
+EF=
+
+F0=
+F1=
+F2=
+F3=
+F4=
+F5=
+F6=
+F7=
+F8=
+F9=
+FA=
+FB=
+FC=
+FD=
+FE=
+FF=
+
+_______________________________________
+CHARACTER MUG (TEXT)
+_______________________________________
+
+($00~06; $15; $36; $38; $49) mugs are 6x8 tiles in deminsion)
+
+00=Weapon Keeper
+01=Item Keeper
+02=Arena Keeper
+03=Villager (fat; 'stache; male)
+04=Villager (old; male)
+05=King
+06=Villager (young; male)
+07=Marth
+08=Jeigan
+09=Sheeda
+0A=Sheeda (smile)
+0B=Marth (angry)
+0C=Maric
+0D=Hardain
+0E=Minerva
+0F=Est
+
+10=Poala
+11=Katu
+12=Lawrence
+13=BROWNHAIR BLUECHESTPLATE
+14=Jake?
+15=Storage Keeper
+16=Ricardo
+17=Evil Banetou?
+18=Banetou
+19=Daros
+1A=BLONDEHAIR REDARMOR (Alan?)
+1B=BLUEHAIR PINKARMOR PEGASUSKNIGHT (Claire?)
+1C=BROWNHAIR REDARMOR
+1D=Kashim
+1E=BLONDEHAIR GREENARMOR
+1F=Camus
+
+20=Rich girl-lookin' Camus person
+21=Ellis? (Marth's sister)
+22=Linda
+23=Gato
+24=Green Mamkute
+25=Orange Mamkute
+26=Marth (mirrored)
+27=Kain (mirrored)
+28=Abel (mirrored)
+29=Chiki
+2A=Julian
+2B=Rena
+2C=REDHAIR BLUEROBE FEMALE (Minerva'a sister?)
+2D=REDROBE OLD BISHOP
+2E=BLUEROBE HAT OLD BISHOP
+2F=Oguma
+
+30=Medius
+31=Sheeda (Mirrored)
+32=Minerva (eye's closed)
+33=Advisor guy (end chapter dude)
+34=GREENHAIR LIGHTBLUEARMOR ARCHER
+35=Riff
+36=Villager (middle-age; male)
+37=GREENROBE OLD MALE
+38=VIllager (woman w/ basket)
+39=BROWNHAIR AXEFIGHTER
+3A=BLONDEHAIR SNIPER
+3B=Doga
+3C=GREEN ARMOR
+3D=BLUEHAIR HERO
+3E=Linda (Slave)?
+3F=GREENHAIR HORSEMAN
+
+40=REDHAIR Kashim
+41=GOLDHAIR Kashim
+42=PINKHAIR HORSEMAN
+43=BLUEHAIR AXEFIGHTER
+44=REDHAIR PURPLEARMOR SOCIALKNIGHT
+45=REDHAIR AQUAARMOR SOCIALKNIGHT
+46=REDHAIR PURPLEARMOR ARMOR
+47=REDHAIR GREENARMOR SWORDFIGHTER
+48=BLUEHAIR HEADBAND Jake?
+49=Anna (SAVE GIRL)
+4A=REDHAIR Navarre
+4B=Chainy
+4C=Navarre
+4D=REDARMOR OLD MALE
+4E=GREENARMOR MOHAWK OLD MALE
+
+
+_______________________________________
+CLASSES
+_______________________________________
+
+00=Null
+01=Social Knight
+02=Armor
+03=Pegusus Knight
+04=Paladin
+05=Dragon Knight
+06=Sword Fighter
+07=Axe Fighter
+08=Pirate
+09=Thief
+0A=Hero
+0B=Archer
+0C=Hunter
+0D=Ballistae
+0E=Arch Knight
+0F=Sniper
+
+10=Commando
+11=Mamkute
+12=Mage
+13=Priest
+14=Bishop
+15=Lord
+16=General
+
+_______________________________________
+MAPS
+_______________________________________
+First map
+$802E~820D
+
+32x15 ($20 x $0F)
+
+[TILES]
+
+TSA
+-$18018
+
+Pallete per tile (TSA)
+-$3F1CF
+
+General pallete per map
+-$1BA42
+
+00=UNUSED
+01=UNUSED
+02=Social Knight (Blue)
+03=Social Knight (Red)
+04=Armor (Blue)
+05=Armor (Red)
+06=Pegasus Knight (Blue)
+07=Pegasus Knight (Red)
+08=Paladin (Blue)
+09=Paladin (Red)
+0A=Dragon Knight (Blue)
+0B=Dragon Knight (Red)
+0C=Sword Fighter (Blue)
+0D=Sword Fighter (Red)
+0E=Axe Fighter (Blue)
+0F=Axe Fighter (Red)
+
+10=Pirate (Blue)
+11=Pirate (Red)
+12=Thief (Blue)
+13=Thief (Red)
+14=Hero (Blue)
+15=Hero (Red)
+16=Archer (Blue)
+17=Archer (Red)
+18=Hunter (Blue)
+19=Hunter (Red)
+1A=Ballistae (Blue)
+1B=Ballistae (Red)
+1C=Arch Knight (Blue)
+1D=Arch Knight (Red)
+1E=Sniper (Blue)
+1F=Sniper (Red)
+
+20=Commando (Blue)
+21=Commando (Red)
+22=Mamkute (Blue)
+23=Mamkute (Red)
+24=Mage (Blue)
+25=Mage (Red)
+26=Priest (Blue)
+27=Priest (Red)
+28=Bishop (Blue)
+29=Bishop (Red)
+2A=Lord (Blue)
+2B=Lord (Red)
+2C=General (Blue)
+2D=General (Red)
+2E=Top-left castle-top
+2F=Top-right castle-top
+
+30=Grass
+31=Forest
+32=Forest (the same; secret shop?)
+33=Sand
+34=Sand edge right
+35=Sand edge left
+36=Sand edge bottom
+37=Sand edge top
+38=Hill
+39=Bridge (Vertical)
+3A=Bridge (Horizontal)
+3B=Rocky wall
+3C=Altar?
+3D=Door
+3E=Bottom-left castle-top
+3F=Bottom-right castle-top
+
+40=Bridge (locked)
+41=Bridge (unlocked)
+42=Bridge (top)
+43=UNUSED
+44=UNUSED
+45=Tent
+46=House
+47=Arena
+48=Armory
+49=Item Shop
+4A=Fort
+4B=Castle (outside; bottom)
+4C=Castle (outside; top)
+4D=Castle (outside; bottom-left)
+4E=Castle (outside; bottom-right)
+4F=Castle (wall; top-right)
+
+50=River
+51=River (left-right edge)
+52=River (top-bottom edge)
+53=River (top-left edge)
+54=River (top-right edge)
+55=River (bottom-left edge)
+56=River (bottom-right edge)
+57=River (left edge)
+58=River (right edge)
+59=River (top edge)
+5A=River (bottom edge)
+5B=Mountain
+5C=Castle (wall; bottom-left)
+5D=Castle (wall; left)
+5E=Castle (wall; right)
+5F=Castle (wall; bottom-right)
+
+60=Sea
+61=Sea (top edge)
+62=Sea (bottom edge)
+63=Sea (left edge)
+64=Sea (right edge)
+65=Sea (bottom-left edge)
+66=Sea (bottom-right edge)
+67=Sea (top-left edge)
+68=Sea (top-right edge)
+69=Castle (wall; top-left)
+6A=Castle (wall)
+6B=Castle (wall; top edge)
+6C=Castle (wall; roof)
+6D=Castle (wall; bottom shadow)
+6E=Castle (wall; top edge w/ shadow)
+6F=Castle (wall; top shadow)
+
+70=Stairs (left-edge)
+71=Stairs (right-edge)
+72=Social Knight (Blue)
+73=Social Knight (Red)
+74=Armor (Blue)
+75=Armor (Red)
+76=Pegasus Knight (Blue)
+77=Pegasus Knight (Red)
+78=Paladin (Blue)
+79=Paladin (Red)
+7A=Dragon Knight (Blue)
+7B=Dragon Knight (Red)
+7C=Sword Fighter (Blue)
+7D=Sword Fighter (Red)
+7E=Axe Fighter (Blue)
+7F=Axe Fighter (Red)
+
+80=Pirate (Blue)
+81=Pirate (Red)
+82=Thief (Blue)
+83=Thief (Red)
+84=Hero (Blue)
+85=Hero (Red)
+86=Archer (Blue)
+87=Archer (Red)
+88=Hunter (Blue)
+89=Hunter (Red)
+8A=Ballistae (Blue)
+8B=Ballistae (Red)
+8C=Arch Knight (Blue)
+8D=Arch Knight (Red)
+8E=Sniper (Blue)
+8F=Sniper (Red)
+
+90=Commando (Blue)
+91=Commando (Red)
+92=Mamkute (Blue)
+93=Mamkute (Red)
+94=Mage (Blue)
+95=Mage (Red)
+96=Priest (Blue)
+97=Priest (Red)
+98=Bishop (Blue)
+99=Bishop (Red)
+9A=Lord (Blue)
+9B=Lord (Red)
+9C=General (Blue)
+9D=General (Red)
+9E=Castle (wall; top-edge w/ right pillar)
+9F=Castle (wall; top-edge w/ left pillar)
+
+A0=Castle (floor)
+A1=Stairs
+A2=Castle (floor w/ shadow)
+A3=Grass (shadow)
+A4=Village (bottom; gate closed)
+A5=Village (bottom; gate open)
+A6=Village (house)
+A7=Village (bottom-left edge)
+A8=Village (bottom-right edge)
+A9=Village (bottom; gate ruined)
+AA=Grass (top shadow)
+AB=Chest
+AC=Chest (open)
+AD=Village (house; ruined)
+AE=Throne
+AF=Castle (floor w/ top-left shadow)
+
+B0=Castle (dual pillars)
+B1=Castle (pillar right w/ shadow)
+B2=Castle (pillar left)
+B3=Castle (pillar right)
+B4=Castle (pillar shadow)
+B5=Castle (shadow top)
+B6=Village (top-left edge)
+B7=Village (top-right edge)
+B8=Castle (floor w/ sharp top-left shadow)
+B9=Stairs (left-right edge)
+BA=Grass w/ sharp top-left shadow
+BB=Stairs leading down
+BC=UNUSED
+BD=Wall (pillar right)
+BE=Wall (pillar left w/ shadow)
+BF=UNUSED
+
+C0=Castle (outside; top-left edge)
+C1=Castle (outside; top-right edge)
+C2=Castle (wall; thin wall top)
+C3=Castle (wall; thin wall)
+C4=Castle (wall; thin wall bottom)
+C5=UNUSED
+C6=UNUSED
+C7=Castle (wall; thin wall top-edge)
+C8=Castle (wall; heavy shadow)
+
+
+_______________________________________
+NAMES
+_______________________________________
+Marth
+Kain
+Able
+Jeigan
+Doga
+Gordon
+Sheeda
+Riff
+Oguma
+Saji
+Maji
+Barts
+Daros
+Kashim
+Julian
+Rena
+Navarre
+Marchis
+Maric
+Hardain
+Roshi
+Birak
+Uluf
+Zagaro
+Wendell
+Ricardo
+Banetou
+Cezear
+Raddy
+Rodger
+George
+Maria
+Minerva
+Linda
+Jake
+Medea
+Toms
+Thomas
+Michelan
+Boa
+Beck
+Astoria
+Poala
+Katua
+Alan
+Samson
+Chainy
+Est
+Chiki
+Lawrence
+Ellis
+Gato
+_____________________________________
+
+
+
+
+
+34=Holy Bow
+35=Thunder Sword
+36=Hand Spear
+37=Holy Spear
+38=Elegant Sword
+39=Book
+3A=Horse
+3B=Stone
+3C=Light Crest
+3D=Dragon
+3E=Ballistae
+3F=Helmet
+
+40=Bag
+41=Large Sword
+42=Bow
+43=Sword
+44=Spear
+45=Axe
+
+Code:
+GAIDEN
+NOTES
+
+Fire Emblem Gaiden - Note Set
+
+;%Various battle glitches:&nbsp; attricuted to Armors and hero mostly
+;%Indoor Main:&nbsp; Bottom left roofneeds black
+;%3EDB2=Skeleton from Chapter 1 Shrine 2
+;%Counter=Movement
+;%Cuad's (Summon) stats:
+HP-26/STR-10/SKL-01/SPD-03/LCK-00/DEF-05/M.DEF-00/MOVE-4/EXP---
+;%Sage and Zombie sprite-revision
+;%"&amp;" at $7911(?)<CHAR
+;%Mage Battle TSA $15B0
+;%Baron {chapter*MATILDA} HP-40/STR-22/SKL-06/SPD-04/LCK-00/DEF-18/M.DEF-07/MOVE-4/EXP--- /$3EDD0/
+;%Dark Mage {chapter*MATILDA} HP-28/STR-08/SKL-03/SPD-04/LCK-00/DEF-05/M.DEF-08/MOVE-4/EXP--- /$3EDA0
+
+<RANDOM NOTES>
+
+Standard text talking (talking)
+$40010 ~ $41000
+
+Battle Sprites
+$41010 ~ $47900;
+
+Overworld Sprites(armor, pegusus,
+
+social, dragon, hand)
+$53010 ~ $54000
+
+Animation
+
+Setter/Pointer/tabler/thinger?
+$55000 ~ $5C000
+
+Cursor for battle pointer?
+$22000 ~ $27000
+
+Corruption of $50000 ~ $51000 yielded slightly different tiles in first town
+
+Title Screen's TSA
+$11EC3(ish)
+
+Sword for title screen starts at
+
+$57010 (Arrow too)
+
+<TEXT>
+
+General Dialouge
+$D787
+
+Death quotes
+$7A7A
+
+In game tile (flooring) text
+$3E630 ~ $3E670
+
+Class Names
+
+-Team
+$3DBB3 ~ $3DC3D
+-Enemy
+$3DC6A ~ $3DCBC
+
+Weapon Equip
+$2CED0 ~ $2CEE0
+
+Battle Stats (HP downs ect...)
+$1C890 ~ $1C9C2
+
+Battle Commands; Misc Text
+$2DF30 ~ $2E317
+
+Item, Magic, ect... names
+$3DD35 ~ $3DEA0
+
+Character names (TEAM; NPC)
+$3DF0F ~ $3DFC9
+
+Enemy Names (ENEMY; BOSS)
+$3E07F ~ $3E1A8
+
+Menu Titles (STR)
+$33035
+
+Locations (Town/Castle/Forest ect... names)
+$2F8D3
+
+Normal Easy (Difficulty Choices)
+$2CC75
+
+"has joined!" (Joining text)
+$29473
+
+"Enter .." (Enter area text)
+$294A3
+
+"Nothing there " (No clue)
+
+"Music/Animate/Wait Timer (Options/Config)
+$2D866
+
+
+
+{NOTE ON TEXT}
+17 characters ne for dialouge.&nbsp; Before a NOP {EF -> <E>} or the loading of a new character, a end line {ED -> /n} should be used.
+
+<CHARACTER HEADERS>
+{Text only?}
+
+works as so: {E6} E8 50 40 ** F0 ** EA
+
+** is the character.&nbsp; First ** is the mug, and the second, the name.&nbsp; Both use these "headers."&nbsp; Also, if a name is seperated by a semi-colon, that means the left is mug and the right, name.&nbsp; This strand opens the mug anywhere, as far as I know.&nbsp; E6 redraws the box for the new person:&nbsp; Use for multiple people in one conversation; insert before E8...
+
+F0 may just be the "name opener," with 50 40 as the mug.&nbsp; As in:
+
+E6 E8 50 40 **- Mug
+E6 E8 F0 **- name
+{or not}
+
+00 No mug; no name
+01 Alm
+02 Celica
+03 Misen
+04 Norm
+05 Ruka
+06 Cliff
+07 Robin
+08 Gray
+09 Clea
+0A Kreb
+0B Kreb {two?}
+0C Fols
+0D May
+0E Silk
+0F Jeni
+
+10 Boey
+11 Cami
+12 Baro
+13 Matilda
+14 Python
+15 Leo
+16 Atlas
+17 Jesi
+18 Older Alm?; Fols
+19 Soni
+1A Dean
+1B Sevr
+1C Ryu
+1D Dute
+1E Tita
+1F Katu
+
+20 Poala
+21 Est
+22 Shek
+23 No mug, Cuad*
+24 Alm Old; Girl
+25 Celica Boy
+26 Lady
+27 Shek; No name, but brackets
+28 No mug; Fighter
+29 No mug, rdM
+2A No mug, aladin
+2B Norm; Hul {Pallete}
+2C No mug; CRASH
+2D Baron person;CRASH
+2E Thief person; Giberish: pattern
+
+of F0 ** F0
+2F Doma/Priest person; CRASH
+
+30 Dark Zombie person; CRASH
+31 Paladin; Crash (Nice Pallete^^)
+32 Dark Priest; CRASH
+33 Sonya; Giberish: pattern of F0 ** F0
+34 Dean; CRASH
+35 Old Baron; CRASH
+36 Baron; F0 pattern again
+37 Shek; CRASH
+38 Paladin; CRASH
+39 Baron (bad pallete); CRASH
+3A Sonya (purple pallete); CRASH
+3B Dark Zombie Priest dude; F0 again
+3C Doma-like person (Nice pallete); CRASH
+3D "Angry Dyute;" CRASH
+3E Pally w/ Mohawk; F0
+3F Pally; 0101010101010101**0A0A0A0A0A...
+
+40 Dark Priest; Hex
+41 Paladin; F0
+42 Fat thief <.>; CRASH
+43 Dean; CRASH
+44 Paladin; CRASH
+45 No mug; CRASH
+46 Baron (ew); CRASH
+47 Baron; CRASH
+48 No mug; CRASH
+49 Sonya; CRASH
+4A Fat Thief; Random Hex
+4B No mug; CRASH
+4C ^
+4D ^
+4E ^
+4F No mug; Random Hex
+
+50 No Mug; CRASH
+51 No mug; Random Hex
+52 No mug; CRASH
+53 ^
+54 Baron wit fuggly pallete; F0
+55 Doma Priest; CRASH
+56 Sonja (purplr); CRASH
+57 No mug; 06...07...03...
+58 Zombie duuude; CRASH
+59 ... o_O; CRASH
+5A Est; CRASH
+5B Cliff; Hex
+5C Katua; CRASH
+5D ... nooooooo; CRASH
+5E ...at least it works :X; F0
+5F :X; CRASH
+
+60 ^
+61 No mug; CRASH
+62 Ruka; CRASH
+63 Leo; CRASH
+64 ^
+65 No mug; CRASH
+66 :X; CRASH
+67 No mug; CRASH
+68 ^
+69 :x; FO
+6A :X; CRASH
+6B :X; Hex
+6C :X; CRASH
+6D Kreb; CRASH
+6E Fols; Half a bracket and no name
+6F :X; CRASH
+
+70 Dark Priest; Hex
+71 No mug; CRASH
+72 ^
+73 No mug; Hex
+74 Paola; CRASH
+75 No mug; CRASH
+76 Ruka; CRASH
+77 No mug; CRASH
+78 ^
+79 :X; F0
+7A Valbo (wrong pallete [Cliff?]);CRASH
+7B :X; Hex
+7C Kreb; HEX
+7D :x; CRASH
+7E ^
+7F Dark Priest; F0
+
+80 No mug; Hex
+81 Baron; {ENEMY NAME}**
+82 Thief; {ENEMY NAME}
+83 Dolk
+84 Dark Priest; Sage
+85 Mustachoid; Rudo{lf}***
+86 Judah
+87 Sonja; Son{ja}***
+88 Dean; CRASH
+89 Magnu
+8A Baron; Jerome
+8B Zek; Brackets only
+8C Hannibal
+8D Math (ewpalleteew)
+8E Sonja (Purple); Mar
+8F Dark Priest; Mat
+
+90 Chuam
+91 Dyute (Enemy/Angry)
+92 Gazel
+93 Threi
+94 Mika
+95 Loso
+96 Dach
+97 Dean; CRASH
+98 Shiza
+99 No mug; Rig{el} Army***
+9A Wolf (Ulf)
+9B Baron; {ENEMY NAME}
+9C No mug; Zack
+9D Sonja; {D}ean***
+9E Gaha
+9F No mug; Rig{el} Army***
+
+A0 No mug; Gez{el's?} Army
+A1 No mug; DozeeAmy {Dozel
+
+Army?}***
+A2 No mug; MrDolk (:X)
+A3 No mug; Magi{c} Army (Magi is acceptable)***
+A4 No mug; Pirat{e}***
+A5 No mug; Band{i}t***
+A6 No mug; Mon{ster?}***
+A7 No mug; Doma (his troops prolly :/)
+A8 Mular
+A9 Garci{a?}
+AA Sonja/witch person thinger
+
+(Purple w/ marks under eyes); Hes
+AB No mug; Saizo{'s Army?}
+AC Gane
+AD No mug; Doma {same as A7?}
+AE ^
+AF ^
+
+B0 ^
+B1 No mug; Knight
+B2 No mug; ht (I'm guessing here's the J2E enemies :(
+B3 No mug; Gargoyl{e}***
+B4 No mug; {P}aladin***
+B5 No mug; Dragon Zombie
+B6 No mug; rt (Archer was it?)
+B7 No mug; rdM (or was this it :X)
+B8 no mug; {M}agic Kn{ight}***
+B9 No mug; n
+BA No mug; {Pr}iest***
+BB No mug; Zombi{e}***
+BC No mug; r
+BD No mug; er
+BE No mug; Thief (Bandit?)
+BF No mugl Mage__ (_ are spaces.&nbsp; May just be mine :E )
+
+C0~FF ^ (Presumedly)
+
+*Pallete is overworld sprites
+All CRASHs seem to load the wrong pallete, or hangs before it can.&nbsp; I would think you'd be able to use the mugs of the crash, just as long as you don't use the name.
+
+**From this point on, I'm willing to bet this is where the enemies begin.&nbsp; Names should follow their order of appearence within the ROM.
+
+***Bad pointer most likely.&nbsp; Gave what I thought should be there.&nbsp; Could also be just a bad name on J2E's part.
+
+
+<CHARACTER TSA {MUGS}>
+
+First set is the TSA, second is their pallete, and third, the Attribute Table.&nbsp; For the Attribute Table, each bit represents a pallete. If you pass the four normal palletes (04, 05 ect...), the tiles are mirrored.
+
+
+Alm
+-$275B1
+-$27D0F
+-$27A59
+
+Alm (promoted)
+-
+-
+-
+
+Norma
+-$2758D ~ 275B0
+-$27D03 ~ 27D0E
+-$27A47 ~ 275A8
+
+Ruka
+-$27131
+-$27BA7
+-$2783D ~ 2784E
+
+Cliff
+-$27179
+-$27BBF
+-$27861
+
+Robin
+-$2719D
+-$27BCB
+-$27873
+
+Gray
+-$27155
+-$27C15
+-$2784F
+
+Clea
+-$270E9
+-$27B8F
+-$27819
+
+Kreb
+-$276D1
+-$27D7B
+-$27AC5
+
+Fols
+-$27719
+-$27D93
+-$27AE9
+
+May
+
+$275E1
+
+Silk
+
+$275E7
+
+Jenny
+
+$275ED
+
+Boey
+
+$275F3
+
+Camu
+
+$275F9
+
+Leo
+
+$275FF
+
+Valbo
+
+$27605
+
+Matilda
+-$270C5
+-$27B83
+-$27807
+
+Paison
+-$271E5
+-$27BE3
+-$27897
+
+Atlas
+
+$27617
+
+Jesse
+
+$2761D
+
+Sonja
+
+$27623
+
+Dean
+
+$27629
+
+Sevr
+
+$2762F
+
+Ryuto
+-$2734D
+-$27C4F
+-$27939
+
+Dyute
+-$2746D
+-$27CA3
+-$279B7
+
+Tita
+-$27305
+-$27C37
+-$27915
+
+Katua
+
+$27647
+
+Paola
+
+$2764D
+
+Est
+
+$27653
+
+Zek (NOTE: His attribute data by default has mirrored tiles.&nbsp; Don't be confused ^^)
+-$272E1
+-$27C2B
+-$27903
+
+
+<CHARACTER STATS>
+
+Before I start, it seems that the characters have their own overworld sprite, depending on who you have.&nbsp; I know Misen does, and I'd think everyone else you see in town and such would as well.&nbsp; Not too sure on others though:&nbsp; probably just load nothing ($00).&nbsp; First byte is the character pointer.&nbsp; Loads the mug, sprite, and name.&nbsp; I don't think the stats and growths are, however.
+
+Example: Alm < 01 15 01 1C 00 0A 07 06 07 06 00 00 >
+
+01=Character
+15=Class
+01=Level
+1C=HP
+00=Experience
+0A=Strength
+07=Skill
+06=Speed
+07=Luck
+06=Defense
+00=Spell Set
+00=Item
+
+Or in otherwords, the stats go:
+
+Character
+Class
+Level
+HP (99HP is ??;) )
+Experience
+Strength
+Skill
+Speed
+Luck
+Spells
+Items
+
+M.Defense and Counter are missing
+
+;[
+
+Each character is 11 bytes long.
+
+Alm
+$210F2
+
+Celica
+$210FE
+
+Misen
+$2110A
+
+Norma
+$21116
+
+Ruka
+$21122
+
+Cliff
+$2112E
+
+Robin
+$2113A
+
+Gray
+$21146
+
+Clea
+$21152
+
+Kreb
+$2115E
+$2116A
+{Repeated for another 12 bytes;&nbsp;
+
+takes place of 0B by the table, my
+
+guess woulod be}
+
+Fols
+$21176
+
+May
+$21182
+
+Silk
+$2118E
+
+Jenni
+$2119A
+$211A7
+{another repeat, but there's no reason like with Kreb...}
+
+Boey
+$211A6
+
+Camu
+$211B2
+
+Valbo
+$211BE
+
+Matilda
+$211CA
+
+Paison
+$211D6
+
+Leo
+$211E2
+
+Atlas
+$211EE
+
+Jesse
+$211FA
+
+? (Class is $04)
+$21206
+
+Sonja
+$21212
+
+Dean
+$2121E
+
+Sevr
+$2122A
+
+Ryuto
+$21236
+
+Dyute
+$21242
+
+Tita
+$2124E
+
+Katua
+$2125A
+
+Paola
+$21266
+
+Est
+$21272
+
+Zek
+$2127E
+
+
+<CHARACTER GROWTHS>
+
+Goes in order of:
+STR
+SKL
+SPD
+LCK
+DEF
+M.DEF
+HP
+
+With some extra crap thrown in; yet to figure it out.&nbsp; Each character is 6 bytes long.
+
+Alm
+$24E3D
+
+Celica
+$24E43
+
+Misen
+$24E49
+
+Norma
+$24E4F
+
+Ruka
+$24E55
+
+Cliff
+$24E5B
+
+Robin
+$24E61
+
+Gray
+$24E67
+
+Clea
+$24E6D
+
+Kreb
+$24E72
+
+Fols
+$24E7F
+
+May
+$24E85
+
+Silk
+$24E8B
+
+Jenni
+$24E91
+
+Boey
+$24E97
+
+Camu
+$24E9D
+
+Valbo
+$24EA3
+
+Matilda
+$24EA9
+
+Paison
+$24EAF
+
+Leo
+$24EB5
+
+Atlas
+$24EBB
+
+Jesse
+$24EC1
+
+? (Class is $04)
+$24EC7
+
+Sonja
+$24ECD
+
+Dean
+$24ED3
+
+Sevr
+$24ED9
+
+Ryuto
+$24EDF
+
+Dyute
+$24EE5
+
+Tita
+$24EEB
+
+Katua
+$24EF1
+
+Paola
+$24EF7
+
+Est
+$24EFD
+
+Zek
+$24F03
+
+
+<CLASSES>
+
+For magic using classes, I haven't found where/how the game determines which characters spells to learn.&nbsp; Therefore, making new mages useless.&nbsp; They have no spell, yet in battle use Fire, the default, I'm assuming.&nbsp; Sometimes, a White command appears after the battle, which proceedes to crash the game in a similiar way to the Ryuto incident.
+
+00 CRASH
+01 Social Knight
+02 Armor
+03 Pegusus
+04 Paladin
+05 Falcon Knight
+06 Soldier
+07 Gold Knight
+08 Sword Fighter
+09 Magic Knight
+0A Magic Knight (Sword Master?)
+0B Priest (Celica)
+0C Archer
+0D Sniper
+0E Villager
+0F Mage (M)
+
+10 Mage (F)
+11 Nun
+12 Cleric
+13 Sage
+14 Arch Knight
+15 Fighter (Alm)
+16 Baron
+17 Hero (Unused?&nbsp; It's "broken" anyways...)
+18 Royal (Broken)
+
+19~FF aren't classes.
+
+I went through, adjusting each byte set by 10.&nbsp; I never saw any enemy-specific classes, so they may have been somewhere within those 10 byte adjustments :/
+
+<ITEMS>
+
+Some items had the wrong pallete.&nbsp;
+
+I was testing in Alm, so that may
+
+have been why, since Swords and
+
+Rings appeared fine :/
+
+00=None
+01=Spear, no name.&nbsp; 1~2 range.
+02=Steel Spear
+03=Silver Spear
+04=Throw {Javelin}.&nbsp; 1 range?
+05=Holy
+06=Knight Killer
+07=Gradius
+08=Shooting Star
+09=Sunlight
+0A=Moonlight
+0B=Steel Sword
+0C=Silver Sword
+0D=Heroes Sword
+0E=Demon/Dark/Death's Sword
+0F=Thunder Sword
+
+10=Holy Sword
+11=Falchion
+12=Regal Blade
+13=Tentacle (.. sword D: )
+14=Steel Bow
+15=Holy Bow
+16=Silver Bow
+17~FF= CRASH
+
+
+<MAGIC>
+
+WEEEEEEEE~~~&nbsp; Every class has their own magic banks.&nbsp; What FUN;[ As a note, only normal magic users can use magic:&nbsp; it doesn't appear correctly otherwise.&nbsp; Also, these are starting spells.&nbsp; I haven't touched learning slots.
+
+Spell A;Spell B -> Gives more than one spell. Class governs which magic banks are used.
+
+<mage M/F>
+
+00=None (Make sure non-magic
+
+classes has this on)
+01=Fire
+02=Thunder
+03=Fire; Thunder
+04=Ragnorok
+05=Ragnorok; Fire
+06=Ragnorok; Thunder
+07=Ragnorok; Thunder; Fire
+08=Angel
+09=Angel; Fire
+0A=Angel; Thunder
+0B=Angel; Thunder; Fire
+0C=Angel; Ragnorok
+0D=Angel; Ragnorok; Fire
+0E=Angel; Ragnorok; Thunder
+0F=Angel; Ragnorok; Thunder; Fire
+
+10=Excalibur
+11=Excalibur; Fire
+12=Excalibur; Thunder
+13=Excalibur; Thunder; Fire
+14=Excalibur; Ragnorok
+15=Excalibur; Ragnorok; Fire
+16=Excalibur; Ragnorok; Thunder
+17=Excalibur; Ragnorok; Thunder;
+
+Fire
+18=Excalibur; Angel
+19=Excalibur; Angel; Fire
+1A=Excalibur; Angel; Thunder
+1B=Excalibur; Angel; Thunder; Fire
+1C=Excalibur; Angel; Ragnorok
+1D=Excalibur; Angel; Thunder; Fire
+1E=Excalibur; Angel; Ragnorok;
+
+Thunder
+1F=Excalibur; Angel; Ragnorok;
+
+Thunder; Fire
+
+20=Arrow
+21=Arrow; Fire
+22=Arrow; Thunder
+23=Arrow; Thunder; Fire
+24=Arrow; Ragnorok
+25=Arrow; Ragnorok; Fire
+26=Arrow; Ragnorok; Thunder
+27=Arrow; Ragnorok; Thunder; Fire
+28=Arrow; Angel
+29=Arrow; Angel; Fire
+2A=Arrow; Angel; Thunder
+2B=Arrow; Angel; Thunder; Fire
+2C=Arrow; Angel; Ragnorok
+2D=Arrow; Angel; Ragnorok; Fire
+2E=Arrow; Angel; Ragnorok; Thunder
+2F=Arrow; Angel; Ragnorok;
+
+Thunder; Fire
+
+30=Arrow; Excalibur
+31=Arrow; Excalibur; Fire
+32=Arrow; Excalibur; Thunder
+33=Arrow; Excalibur; Thunder; Fire
+34=Arrow; Excalibur; Ragnorok
+35=Arrow; Excalibur; Ragnorok;
+
+Fire
+36=Arrow; Excalibur; Ragnorok;
+
+Thunder
+37=Arrow; Excalibur; Ragnorok;
+
+Thunder; Fire
+38=Arrow; Excalibur; Angel
+39=Arrow; Excalibur; Angel; Fire
+3A=Arrow; Excalibur; Angel;
+
+Thunder
+3B=Arrow; Excalibur; Angel;
+
+Thunder; Fire
+3C=Arrow; Excalibur; Angel;
+
+Ragnorok
+3D=Arrow; Excalibur; Angel;
+
+Ragnorok; Fire
+3E=Arrow; Excalibur; Angel;
+
+Ragnorok; Thunder
+3F=Arrow; Excalibur; Angel;
+
+Ragnorok; Thunder; Fire
+
+40=Aura
+41=Aura; Fire
+42=Aura; Thunder
+43=Aura; Thunder; Fire
+44=Aura; Ragnorok
+45=Aura; Ragnorok; Fire
+46=Aura; Ragnorok; Thunder
+47=Aura; Ragnorok; Thunder; Fire
+48=Aura; Angel
+49=Aura; Angel; Fire
+4A=Aura; Angel; Thunder
+4B=Aura; Angel; Thunder; Fire
+4C=Aura; Angel; Ragnorok
+4D=Aura; Angel; Ragnorok; Fire
+4E=Aura; Angel; Ragnorok; Thunder
+4F=Aura; Angel; Ragnorok; Thunder;
+
+Fire
+
+50=Aura; Excalibur
+51=Aura; Excalibur; Fire
+52=Aura; Excalibur; Thunder
+53=Aura; Excalibur; Thunder; Fire
+54=Aura; Excalibur; Ragnorok
+55=Aura; Excalibur; Ragnorok; Fire
+56=Aural Excalibur; Ragnorok;
+
+Thunder
+57=Aura; Excalibur; Ragnorok;
+
+Thunder; Fire
+58=Aura; Excalibur; Angel
+59=Aura; Excalibur; Angel; Fire
+5A=Aura; Excalibur; Angel; Thunder
+5B=Aura; Excalibur; Angel;
+
+Thunder; Fire
+5C=Aura; Excalibur; Angel;
+
+Ragnorok
+5D=Aura; Excalibur; Angel;
+
+Ragnorok; Fire
+5E=Aura; Excalibur; Angel;
+
+Ragnorok; Thunder
+5F=Aura; Excalibur; Angel;
+
+Ragnorok; Thunder; Fire
+
+60=Aura; Arrow
+61=Aura; Arrow; Fire
+62=Aura; Arrow; Thunder
+63=Aura; Arrow; Thunder; Fire
+64=Aura; Arrow; Ragnorok
+65=Aura; Arrow; Ragnorok; Fire
+66=Aura; Arrow; Ragnorok; Thunder
+67=Aura; Arrow; Ragnorok; Thunder;
+
+Fire
+68=Aura; Arrow; Angel
+69=Aura; Arrow; Angel; Fire
+6A=Aura; Arrow; Angel; Thunder
+6B=Aura; Arrow; Angel; Thunder;
+
+Fire
+6C=Aura; Arrow; Angel; Ragnorok
+6D=Aura; Arrow; Angel; Ragnorok;
+
+Fire
+6E=Aura; Arrow; Angel; Ragnorok;
+
+Thunder
+6F=Aura; Arrow; Angel; Ragnorok;
+
+Thunder; Fire
+
+70=Aura; Arrow; Excalibur
+71=Aura; Arrow; Excalibur; Fire
+72=Aura; Arrow; Excalibur; Thunder
+73=Aural Arrowl Excalibur;
+
+Thunder; Fire
+74=Aura; Arrow; Excalibur;
+
+Ragnorok
+75=Aura; Arrow; Excalibur;
+
+Ragnorok; Fire
+76=Aura; Arrow; Excalibur;
+
+Ragnorok; Thunder
+77=Aura; Arrow; Excalibur;
+
+Ragnorok; Thunder; Fire
+78=Aura; Arrow; Excalibur; Angel
+79=Aura; Arrow; Excalibur; Angel;
+
+Fire
+7A=Aura; Arrow; Excalibur; Angel;
+
+Thunder
+7B=Aura; Arrow; Excalibur; Angel;
+
+Thunder; Fire
+7C=Aura; Arrow; Excalibur; Angel;
+
+Ragnorok
+7D=Aura; Arrow; Excalibur; Angel;
+
+Ragnorok; Fire
+7E=Aura; Arrow; Excalibur; Angel;
+
+Ragnorok; Thunder
+7F=Aura; Arrow; Excalibur; Angel;
+
+Ragnorok; Thunder; Fire
+
+80~FF=CRASH
+
+<cleric>
+
+00=None
+01=Recover
+02=Libro
+03=Libro; Recover
+04=Drain
+05=Drain; Recover
+06=Drain; Libro
+07=Drain; Libro; Recover
+08=Warp
+09=Warp; Recover
+0A=Warp; Libro
+0B=Warp; Libro; Recover
+0C=Warp; Drain
+0D=Warp; Drain; Recover
+0E=Warp; Drain; Libro
+0F=Warp; Drain; Libro; Recover
+
+10=Reserve
+11=Reserve; Recover
+12=Reserve; Libro
+13=Reserve; Libro; Recover
+14=Reserve; Drain
+15=Reserve; Drain; Recover
+16=Reserve; Drain; Libro
+17=Reserve; Drain; Libro; Recover
+18=Reserve; Warp
+19=Reserve; Warp; Recover
+1A=Reserve; Warp; Libro
+1B=Reserve; Warp; Libro; Recover
+1C=Reserve; Warp; Drain
+1D=Reserve; Warp; Drain; Recover
+1E=Reserve; Warp; Drain; Libro
+1F=Reserve; Warp; Libro; Recover;
+
+Libro
+
+20=Illusion
+21=Illusion; Recover
+22=Illusion; Libro
+23=Illusion; Libro; Recover
+24=Illusion; Drain
+25=Illusion; Drain; Recover
+26=Illusion; Drain; Libro
+27=Illusion; Drain; Libro; Recover
+28=Illusion; Warp
+29=Illusion; Warp; Recover
+2A=Illusion; Warp; Libro
+2B=Illusion; Warp; Libro; Recover
+2C=Illusion; Warp; Drain
+2D=Illusion; Warp; Drain; Recover
+2E=Illusion; Warp; Drain; Libro
+2F=Illusion; Warp; Drain; Libro;
+
+Recover
+
+30=Illusion; Reserve
+31=Illusion; Reserve; Recover
+32=Illusion; Reserve; Libro
+33=Illusion; Reserve; Libro;
+
+Recover
+34=Illusion; Reserve; Drain
+35=Illusion; Reserve; Drain;
+
+Recover
+36=Illusion; Reserve; Drain; Libro
+37=Illusion; Reserve; Drain;
+
+Libro; Recover
+38=Illusion; Reserve; Warp
+39=Illusion; Reserve; Warp;
+
+Recover
+3A=Illusion; Reserve; Warp; Libro
+3B=Illusion; Reserve; Warp; Libro;
+
+Recover
+3C=Illusion; Reserve; Warp; Drain
+3D=Illusion; Reserve; Warp; Drain;
+
+Recover
+3E=Illusion; Reserve; Warp; Drain;
+
+Libro
+3F=Illusion; Reserve; Warp; Drain;
+
+Libro; Recover
+
+40=Dear
+41=Dear; Recover
+42=Dear; Libro
+43=Dear; Libro; Recover
+44=Dear; Drain
+45=Dear; Drain; Recover
+46=Dear; Drain; Libro
+47=Dear; Drain; Libro; Recover
+48=Dear; Warp
+49=Dear; Warp; Recover
+4A=Dear; Warp; Libro
+4B=Dear; Warp; Libro; Recover
+4C=Dear; Warp; Drain
+4D=Dear; Warp; Drain; Recover
+4E=Dear; Warp; Drain; Libro
+4F=Dear; Warp; Drain; Libro;
+
+Recover
+
+50=Dear; Reserve
+51=Dear; Reserve; Recover
+52=Dear; Reserve; Libro
+53=Dear; Reserve; Libro; Recover
+54=Dear; Reserve; Drain
+55=Dear; Reserve; Drain; Recover
+56=Dear; Reserve; Drain; Libro
+57=Dear; Reserve; Drain; Libro;
+
+Recover
+58=Dear; Reserve; Warp
+59=Dear; Reserve; Warp; Recover
+5A=Dear; Reserve; Warp; Libro
+5B=Dear; Reserve; Warp; Libro;
+
+Recover
+5C=Dear; Reserve; Warp; Drain
+5D=Dear; Reserve; Warp; Drain;
+
+Recover
+5E=Dear; Reserve; Warp; Drain;
+
+Libro
+5F=Dear; Reserve; Warp; Drain;
+
+Libro; Recover
+
+60=Dear; Illusion
+61=Dear; Illusion; Recover
+62=Dear; Illusion; Libro
+63=Dear; Illusion; Recover; Libro
+64=Dear; Illusion; Drain
+65=Dear; Illusion; Drain; Recover
+66=Dear; Illusion; Drain; Libro
+67=Dear; Illusion; Drain; Libro;
+
+Recover
+68=Dear; Illusion; Warp
+69=Dear; Illusion; Warp; Recover
+6A=Dear; Illusion; Warp; Libro
+6B=Dear; Illusion; Warp; Libro;
+
+Recover
+6C=Dear; Illusion; Warp; Drain
+6D=Dear; Illusion; Warp; Drain;
+
+Recover
+6E=Dear; Illusion; Warp; Drain;
+
+Libro
+6F=Dear; Illusion; Warp; Drain;
+
+Libro; Recover
+
+70=Dear; Illusion; Reserve
+71=Dear; Illusion; Reserve;
+
+Recover
+72=Dear; Illusion; Reserve; Libro
+73=Dear; Illusion; Reserve; Libro;
+
+Recover
+74=Dear; Illusion; Reserve; Drain
+75=Dear; Illusion; Reserve; Drain;
+
+Recover
+76=Dear; Illusion; Reserve; Drain;
+
+Libro
+77=Dear; Illusion; Reserve; Drain;
+
+Libro; Recover
+78=Dear; Illusion; Reserve; Warp
+79=Dear; Illusion; Reserve; Warp;
+
+Recover
+7A=Dear; Illusion; Reserve; Warp;
+
+Libro
+7B=Dear; Illusion; Reserve; Warp;
+
+Libro; Recover
+7C=Dear; Illusion; Reserve; Warp;
+
+Drain
+7D=Dear; Illusion; Reserve; Warp;
+
+Drain; Recover
+7E=Dear; Illusion; Reserve; Warp;
+
+Drain; Libro
+7F=Dear; Illusion; Reserve; Warp;
+
+Drain; Libro; Recover
+
+80=Fire (... :3 Although it
+
+crashed with a Cleric)
+81=Fire; Recover
+82=Fire; Libro
+83=Fire; Libro; Recover
+84=
+85=
+86=
+87=
+88=
+89=
+8A=
+8B=
+8C=
+8D=
+8E=
+8F=
+90=
+91=
+92=
+93=
+94=
+95=
+96=
+97=
+98=
+99=
+9A=
+9B=
+9C=
+9D=
+9E=
+9F=
+A0=
+A1=
+A2=
+A3=
+A4=
+A5=
+A6=
+A7=
+A8=
+A9=
+AA=
+AB=
+AC=
+AD=
+AE=
+AF=
+B0=
+B1=
+B2=
+B3=
+B4=
+B5=
+B6=
+B7=
+B8=
+B9=
+BA=
+BB=
+BC=
+BD=
+BE=
+BF=
+C0=
+C1=
+C2=
+C3=
+C4=
+C5=
+C6=
+C7=
+C8=
+C9=
+CA=
+CB=
+CC=
+CD=
+CE=
+CF=
+D0=
+D1=
+D2=
+D3=
+D4=
+D5=
+D6=
+D7=
+D8=
+D9=
+DA=
+DB=
+DC=
+DD=
+DE=
+DF=
+E0=
+E1=
+E2=
+E3=
+E4=
+E5=
+E6=
+E7=
+E8=
+E9=
+EA=
+EB=
+EC=
+ED=
+EE=
+EF=
+F0=
+F1=
+F2=
+F3=
+F4=
+F5=
+F6=
+F7=
+F8=
+F9=
+FA=
+FB=
+FC=
+FD=
+FE=
+FF=
+
+<ENEMY STATS>
+
+A different order, but works the same.
+
+
+
+RAM
+__________________________________
+
+__________________________________
+
+________
+
+On first map (town), 000AC8 may be music, as can 000604
+
+Level graphic pointers (graphics nonetheless-00E099
+
+Sprite data-00CE3B
+
+For in battle (first), 00EE36 seems to be a tileset pointer
+
+FIX THESE
+__________________________________
+
+__________________________________
+
+________
+
+
+Things to check:
+58EB0 (level data?&nbsp; graphic?)
+3FF90 (Level Data?)
+02070 (^)
+29750 (^)
+584B0 (^)
+27B10 (^)
+34030 (^)
+
+CHANGED THINGS
+____________________________________________________________________________
+
+<NAMES>
+Towns
+
+TheifWoods -> Nicabar
+RamVall -> Ramvall
+S.Fort -> Dacian
+S.Sofia -> Lukanos
+SofiaGate -> Kado Gate
+Graveyard -> Fardoragh
+Seb -> Sea
+PirateFort -> Seagaar
+SeaShrine -> Aldis
+N.Gate -> Kita
+N.Sofia -> Norell
+W.Sofia -> Amenti
+SofiaShore -> Arva
+Mt.Grave -> Dinsmore
+DesertFt. -> Azalea
+N.Desert -> Celosia
+S.Desert -> Egan
+FortGeeth -> Yaedley
+MiraVall -> Genos
+MiraTemple -> Pagial
+SofiaWoods -> Renshaw
+ForestVill -> Radalph
+Tozeh'sFort -> Delmelza
+N.Forest -> Silvana
+SewerGate -> Deniz
+SageVill -> Gennova
+Border -> Border
+Regal -> Regal
+DragonCr -> Tyra
+FearMt -> Alkas
+Nuibaba's -> Caerwyn
+Fortress -> Myrddin
+RegalCastle -> Regal Castle
+DeadSwamp -> Amadi
+SwampGrave -> Maiba
+Dolk'sFort -> Hak-Kun
+LostWoods -> Perdita
+Doma'sGate -> Barr
+Ram -> Ram
+ThiefShrine -> Laron
+LiberationHQ -> Freemont
+SofiaCastle -> Sofia Castle
+Monastery -> Monastery
+Nowhere -> ???
+Mt.Village -> Lindbergh
+DragonTemp ->Brandeis
+DesertTemp -> Manuetoafa
+ForestTemp -> Kaanan
+RegalVillage -> Adalheid
+FearShrine -> Deirdre
+Doma'sTower -> Torr
+DragonTower -> Tatsu Tower
+Doma'sAlter -> Iphiginia
+Doma'sSwamp -> Carvell
+RamVall -> Ramvall
+
+Characters
+team; npc
+Norm -> Norma
+Ruka -> Ruka
+Cliff -> Cliff
+Robin -> Robin
+Gray -> Gray
+Clea -> Clea
+Kreb -> Kreb
+Fols -> Fols
+Juno ->
+May -> May
+Silk -> Silk
+Jeni -> Jenny
+Boey -> Boey
+Cami -> Camu
+Leo -> Leo
+Baro -> Valbo
+Matil -> Matilda
+Pay -> Paison
+Atla -> Atlas
+Jesi -> Jesse
+Soni -> Sonja
+Dean -> Dean
+Sevr -> Sevr
+Ryu -> Ryuto
+Dute -> Dyute
+Tita -> Tita
+Catu -> Katua
+Pala -> Paola
+Est -> Est
+Shek -> Zek
+Cuad -> Cuad
+Girl -> Girl
+Boy -> Boy
+Lady -> Lady
+Hul -> Hul
+
+enemy
+
+'r?ti?- -> ?''?''- Dozeh
+at?- -> ?''-?- Geese/Geyse
+Dolk -> ?''??- Dolk
+Sage -> ???''?''-Nuibaba
+Rudo -> ??''??-Rudolf/Rudlf
+Judah -> ?''($8A)?''Juda
+Son -> ???- Sonia/Sonya
+Dean -> ?''($A7)-?- Deen/Dean
+Magnu -> ??''??- Magnum
+Jerome -> ?''($A9)?-?- Jerome
+Mular -> ?($8A)-?--Mular
+Hanibal -> ????''?- Hannibal
+Math -> ?($89)??- Massena
+Mar -> ?-?- Marla
+Mat -> ???-Tatara/Tatra
+Chuam -> ?''($88)??-Jyamil/Jamir
+Dyute -> ?''($8A)-?- Dute/Dyute
+Gazel -> ?''?''?-Gazelle
+Zack -> ?''???- Saxon/Zakson
+Threi -> ????''--Slayder/Sleidar
+Mika -> ????-Michaela
+Loso -> ?-??-Lorson *
+Dach -> ?''($89)?-Dahha
+Gaha -> ?''($89)?-Gahha
+Bria -> ?''??-Brai, Vrai *
+Shiza -> ?-?''?- Scissors/Seezas *
+RigArmy -> ??''??''?-Rygel Army
+Wolf -> ?($AA)??- Wolf
+GezArmy -> ?''-??''?- Geese Army
+DozeeAmy -> ?''?''-?''?- Dozeh Army
+MrDolk -> ?''????- Dolk Army (if that's supposed to be "gun" at the end, then it's Army, if not I can't think of what "kun" means right now)
+MagiAmy -> ??''??''? Kitoushi (I don't know what this is called in English. It's Kanji is ???)
+Pirat -> ???''? Pirate
+Bandt -> ???''? Bandit/Mountain Thief
+Mon -> ??? Monster
+Doma -> ?''-? Doma
+Garci ?-> ''??? Garcia
+Hes -> ??? Heste
+Saizo -> ???''- Saizo *
+Gane -> ?''??- Ganef (not Garnef *winks*)
+Mage -> ??''? Majin (it kind of means a demonic person, but I don't know of any examples)
+Demon -> ?''?''? Devil
+Gold -> ?''-??'' Gold
+[Dragon]Holy -> ????? White Dragon
+Serpent-> ?-???? (Looks like
+
+"Serpent" if not for the random Hirigana symbol in there)
+Naga -> ?-?''Narga (Whee~)
+Leec -> ?($89)?- Leecher/Lich
+Balrog -> ?''???''-Balrog
+Hades-> ?''?''?-Bades/Vadess *
+Shell -> ???''?- Kelbeth
+Berle -> ?''???- Belres *
+Mmy -> ??- Mummy
+
+Code:
+FAMICOMWARS
+[quote=Dan]Some Famicom Wars stuff:
+
+The level data for the first level is at 0x10056. The (what I presume to be) header's for each level are at 0x10012. The header is made up of 4 bytes. The first two bytes I don't know what they are, but the last two bytes are the pointers to the actual level. The header data runs all the way to 0x10055. The pointer table for the TSA data is located at 0x1B2E9. The TSA data's format are the four bytes that make each 16x16 block, followed by the byte that controls which palette to use.
+
+The title screen is located around 0x493C, and it looks to be slightly compressed. (RLE, quite possibly)[/quote]
+
+First two bytes represent the level's size.&nbsp; First is Y and second is X (vertical; horizontal).
+
+At the opening of battle, the cursor is moved to the nearest Red HQ.&nbsp; You can't build if there's no HQ.
+
+The game uses the second bases from what I've seen (94, not 30).&nbsp; I don't really see how bases function: they seem to work depending on where they're placed.&nbsp; They look to work if they're no more than two spaces away from its HQ.
+
+
+00=Grass
+01=Road w/ shadow
+02=R Infantry
+03=B Infantry
+04=R Mech
+05=B Mech
+06=R Tank A
+07=B Tank A
+08=R Tank B
+09=B Tank B
+0A=R Transport
+0B=B Transport
+0C=R Artillery A
+0D=B Artillery A
+0E=R Artillery B
+0F=B ARtillery B
+
+10=R Missile
+11=B Missile
+12=R AA Gun
+13=B AA Gun
+14=R Supplier
+15=B Supplier
+16=R Jet A
+17=B Jet B
+18=A Jet B
+19=B Jet B
+1A=R Momber
+1B=B Bomber
+1C=R Copter
+1D=B Copter
+1E=R Battleship
+1F=B Battlehsip
+
+20=R Lander
+21=B Lander
+22=R HQ
+23=B HQ
+24=N Port top
+25=R Port Top
+26=B Port top
+27=N Airport top
+28=R Airport top
+29=B Airport top
+2A=N City bottom
+2B=R City bottom
+2C=B City bottom
+2D=N City top
+2E=R City top
+2F=B City top
+
+30=R Base (doesn't function)
+31=B Base (doesn't function)
+32=Bridge (ocean) bottom side
+33=Forest
+34=Forest
+35=Forest
+36=Lake
+37=Mountain (grass)
+38=N Port bottom
+39=R Port bottom
+3A=B Port bottom
+3B=N Airport bottom
+3C=R Airport bottom
+3D=B Airport bottom
+3E=Forest
+3F=Mountain (grass)
+
+40=Mountain
+41=Mountain
+42=Forest
+43=Forest/Mountain
+44=Road
+45=River
+46=Lake left
+47=Lake right
+48=Bridge (river) top part
+49=Bridge (river) bottom part
+4A=Bridge (river) left part
+4B=Bridge (river) right part
+4C=Bridge
+4D=Shadow/Forest
+4E=Water/land top-right
+4F=Water/land top-left
+
+50=Water/land right
+51=Water/land top-right
+52=Water/land top
+53=Water/land top-left
+54=Water/land left
+55=Water/land bottom-right
+56=Water/land bottom
+57=Water/land bottom-left
+58=Water/land bottom-left
+59=Water/land bottom-right
+5A=Water/land top-left
+5B=Water/land top-right
+5C=Water
+5D=Water/land left-top-right
+5E=Water/land left-bottom-right
+5F=Water/land top-bottom
+
+60=Water/land top-right-bottom
+61=Water/land top-left-bottom
+62=Water/land bottom-left-bottom-right
+63=Water/land top-left-top-right
+64=Water/land top-right-bottom-right
+65=Water/land top-left-bottom-left
+66=Shoal left
+67=Shoal right
+68=Shoal top
+69=Shoal bottom
+6A=Shoal
+6B=Water/land bottom-right
+6C=Water/land bottom-left
+6D=Land shadow
+6E=Bridge (ocean) top part
+6F=River (shadow) right
+
+70=Mountain (grass)
+71=Mountain (grass)
+72=Mountain (grass)
+73=River top-left
+74=River top-right
+75=River right
+76=River left
+77=River bottom-right
+78=River bottom-left
+79=River top-right
+7A=River top-left
+7B=River bottom
+7C=River top
+7D=River bottom-left
+7E=River bottom-right
+7F=Lake
+
+80=Forest
+81=Forest
+82=Bridge (ocean) left part
+83=Bridge (ocean) right-part
+84=Mountain
+85=Water/land top-left
+86=Lake bottom-left
+87=Lake bottom
+88=Lake bottom-right
+89=Lake right
+8A=Lake left
+8B=Lake top-left
+8C=Lake top
+8D=Lake top-right
+8E=Lake right
+8F=Water/land top-right
+
+90=Water/land left-right
+91=Mountain
+92=XXX
+93=N Base
+94=R Base
+95=B Base
+
+
+
+Terrain info (that bottom box thinger)'s pointers table - $1B743.
+
+Before each tile thereafter, $BA is used.&nbsp; I've no clue as to what it's used for other than displaying it.&nbsp; Before $BA is another, which seems to dictate how the tiles are displayed.&nbsp; $48 seems to be normal.&nbsp; $7C seems to reflect each tile (like the cursor).&nbsp; When I tried $62, the pallete shifted.&nbsp; I could derive that the second bit affected the pallete, but it seems to only work with a six.
+
+Cursor TSA - $1BE7F
+
+TERRAIN
+
+Tiles run in the same order as with level format.&nbsp; Bases and such don't change.
+
+Begins at $1CAA1
+
+00=---
+01=Grass
+02=River
+03=Mountain
+04=Forest
+05=Road
+06=---
+07=Water
+08=---
+09=Lake
+0A=---
+0B=---
+0C=Bridge
+0D=---
+0E=---
+0F=---
+
+
+Three famicom games and some assorted data~ - Fire Blazer - 15th June 2008 15:27:33
+
+I thought I had promised you I'd work on it, but for whatever damned reason, I didn't... I probably won't now, since I don't do that "discovery" thing, but at the least if you or ACMLM were to disappear, it's somewhere else. Eventually I'll end up documenting it and putting it on my hardrive, but...
+
